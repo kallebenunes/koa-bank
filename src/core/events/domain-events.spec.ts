@@ -2,7 +2,7 @@ import { DomainEvent } from '../events/domain-event'
 import { UniqueEntityID } from '../entities/unique-entity-id'
 import { AggregateRoot } from '../entities/aggregate-root'
 import { DomainEvents } from '@/core/events/domain-events'
-import { vi } from 'vitest'
+
 
 class CustomAggregateCreated implements DomainEvent {
   public ocurredAt: Date
@@ -30,7 +30,7 @@ class CustomAggregate extends AggregateRoot<null> {
 
 describe('domain events', () => {
   it('should be able to dispatch and listen to events', async () => {
-    const callbackSpy = vi.fn()
+    const callbackSpy = jest.fn()
 
     // Subscriber cadastrado (ouvindo o evento de "resposta criada")
     DomainEvents.register(callbackSpy, CustomAggregateCreated.name)

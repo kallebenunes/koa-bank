@@ -39,5 +39,6 @@ export const SCHEMA = `
     createUser(email: String!, name: String): User!
     updateUser(id: ID!, email: String, name: String): User
     deleteUser(id: ID!): User
+    createTransaction(id: ID!): Transaction!
   }
 `

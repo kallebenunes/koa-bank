@@ -1,5 +1,5 @@
 import { GetAccountBalanceUseCase } from './get-account-balance';
-import { Account } from '../../enterprise/Account';
+import { Account } from '../../enterprise/entities/Account';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { makeMockAccountsRepository } from '@/test/mocks/repositories/mock-accounts-repository';
 describe('GetAccountBalanceUseCase', () => {

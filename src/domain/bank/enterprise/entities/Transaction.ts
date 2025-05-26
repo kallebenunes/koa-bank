@@ -28,13 +28,15 @@ export class Transaction extends Entity<TransactionProps> {
   }
 
   static create(props: Optional<TransactionProps,'createdAt'>, id?: UniqueEntityID) {
-    return new Transaction(
+    const transaction = new Transaction(
       {
         ...props,
         createdAt: props.createdAt || new Date(),
       },
       id
     );
+
+    return transaction;
 
   }
 }

@@ -1,4 +1,4 @@
-import { Account } from './../../enterprise/Account';
+import { Account } from '../../enterprise/entities/Account';
 
 export interface AccountsRepository {
   save(account: Account): Promise<void>;

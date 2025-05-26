@@ -1,4 +1,4 @@
-import { Transaction } from "../../enterprise/Transaction";
+import { Transaction } from "../../enterprise/entities/Transaction";
 
 export interface TransactionsRepository {
   findById(id: string): Promise<Transaction | null>;

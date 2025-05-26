@@ -1,6 +1,6 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { TransactionsRepository } from "../repositories/transactions-repository";
-import { Transaction } from "../../enterprise/Transaction";
+import { Transaction } from "../../enterprise/entities/Transaction";
 
 export interface SendTransactionDTO {
   amount: number;

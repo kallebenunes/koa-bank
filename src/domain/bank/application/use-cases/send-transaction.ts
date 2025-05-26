@@ -5,6 +5,7 @@ import { DomainEvents } from "@/core/events/domain-events";
 import { Either, left, right } from "@/core/either";
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error";
 import { LockedError } from "./errors/ConflictError";
+import { InsufficientFunds } from "./errors/InsufficientFunds";
 
 export interface SendTransactionDTO {
   amount: number;
@@ -30,9 +31,9 @@ export class SendTransactionUseCase {
     if(!originAccount) {
       return left(new ResourceNotFoundError())
     }
-
+    
     if(originAccount.balance < transactionData.amount) {
-      return left(new Error('Insufficient funds'))
+      return left(new InsufficientFunds())
     }
     
     if(DomainEvents.findMarkedAggregateByID(originAccount.id) || DomainEvents.findMarkedAggregateByID(destinationAccount.id)) {

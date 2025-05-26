@@ -13,6 +13,7 @@ model User {
     name      String?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    password  String
 
     account Account?
 }
@@ -31,7 +32,7 @@ model Account {
 }
 
 model Transaction {
-    id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+    id                  String   @id @default(auto()) @map("_id") @db.ObjectId
     amount              Float
     createdAt           DateTime @default(now())
     

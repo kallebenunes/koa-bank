@@ -4,7 +4,7 @@
   "description": "Backend service with Koa, GraphQL, and Prisma",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/infra/http/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "npm run test:unit && npm run test:e2e",

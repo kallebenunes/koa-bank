@@ -1,0 +1,53 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend service with Koa, GraphQL, and Prisma",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "jest --config jest.config.unit.ts",
+    "test:unit:watch": "jest --config jest.config.unit.ts --watch",
+    "test:unit:coverage": "jest --config jest.config.unit.ts --coverage",
+    "test:e2e": "jest --config jest.config.e2e.ts",
+    "test:e2e:watch": "jest --config jest.config.e2e.ts --watch",
+    "test:e2e:coverage": "jest --config jest.config.e2e.ts --coverage",
+    "test:ci": "npm run test:unit:coverage && npm run test:e2e:coverage",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
+  },
+  "dependencies": {
+    "@koa/cors": "^4.0.0",
+    "@koa/router": "^12.0.0",
+    "@prisma/client": "^5.10.0",
+    "dotenv": "^16.4.1",
+    "graphql": "^15.8.0",
+    "graphql-relay": "^0.9.0",
+    "koa": "^2.15.0",
+    "koa-bodyparser": "^4.4.1",
+    "koa-graphql": "^0.12.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.12",
+    "@types/koa": "^2.15.0",
+    "@types/koa__cors": "^4.0.0",
+    "@types/koa__router": "^12.0.0",
+    "@types/koa-bodyparser": "^4.3.12",
+    "@types/node": "^20.11.19",
+    "@types/supertest": "^6.0.3",
+    "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "@typescript-eslint/parser": "^7.0.1",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "prisma": "^5.10.0",
+    "supertest": "^7.1.1",
+    "ts-jest": "^29.1.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
+  }
+}

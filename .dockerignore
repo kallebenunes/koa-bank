@@ -1,0 +1,12 @@
+.git
+.gitignore
+node_modules
+*/node_modules
+**/.env
+*.log
+dist
+build
+coverage
+.dockerignore
+Dockerfile*
+docker-compose*

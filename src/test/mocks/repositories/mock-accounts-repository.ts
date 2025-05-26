@@ -6,5 +6,6 @@ export function makeMockAccountsRepository(): jest.Mocked<AccountsRepository> {
     findById: jest.fn(),
     findByCustomerId: jest.fn(),
     save: jest.fn(),
+    processTransaction: jest.fn(),
   };
 }

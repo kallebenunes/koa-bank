@@ -27,9 +27,11 @@ export class Account extends AggregateRoot<AccountProps> {
   addTransaction(transaction: Transaction) {
     if(transaction.originAccount.equals(this.id)) {
       this.addDomainEvent(new TransactionSentEvent(transaction));
+      this.props.balance -= transaction.amount;
     }
     if(transaction.destinationAccount.equals(this.id)) {
       this.addDomainEvent(new TransactionReceivedEvent(transaction));
+      this.props.balance += transaction.amount;
     }
   }
 

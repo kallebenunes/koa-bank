@@ -1,8 +1,8 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { TransactionsRepository } from "../repositories/transactions-repository";
 import { Transaction } from "../../enterprise/entities/Transaction";
 import { AccountsRepository } from "../repositories/accounts-repository";
 import { DomainEvents } from "@/core/events/domain-events";
+import { Either, right } from "@/core/either";
 
 export interface SendTransactionDTO {
   amount: number;
@@ -10,12 +10,10 @@ export interface SendTransactionDTO {
   originAccountId: string; // Optional, can be used to specify the origin account
 }
 
-export interface SendTransactionResponse {
-  transaction: Transaction;
-}
+export type SendTransactionResponse = Either<Error, null>;
 
 export class SendTransactionUseCase {
-  constructor(private transactionRepository: TransactionsRepository, private accountsRepository: AccountsRepository) {}
+  constructor(private accountsRepository: AccountsRepository) {}
 
   async execute(transactionData: SendTransactionDTO): Promise<SendTransactionResponse> {
     
@@ -48,12 +46,13 @@ export class SendTransactionUseCase {
       destinationAccount: new UniqueEntityID(transactionData.destinationAccountId),
       originAccout: new UniqueEntityID(transactionData.originAccountId),
     })
-  
-    await this.transactionRepository.save(transaction);
+    
+    originAccount.addTransaction(transaction);
+    destinationAccount.addTransaction(transaction);
 
-    return {
-      transaction
-    }
+    await this.accountsRepository.processTransaction(transaction, originAccount, destinationAccount);
+
+    return right(null)
     
   }
 

@@ -50,7 +50,7 @@ export class SendTransactionUseCase {
     originAccount.addTransaction(transaction);
     destinationAccount.addTransaction(transaction);
 
-    await this.accountsRepository.processTransaction(transaction, originAccount, destinationAccount);
+    await this.accountsRepository.settleTransaction(transaction, originAccount, destinationAccount);
 
     return right(null)
     

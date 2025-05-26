@@ -48,7 +48,7 @@ describe("Send Transaction Use Case", () => {
     
     expect(mockAccountsRepository.findById).toHaveBeenCalledWith("destination-account-id");
     expect(mockAccountsRepository.findById).toHaveBeenCalledWith("origin-account-id");
-    expect(mockAccountsRepository.processTransaction).toHaveBeenCalled()
+    expect(mockAccountsRepository.settleTransaction).toHaveBeenCalled()
     expect(result.isRight()).toBe(true);
     
   } )
@@ -123,7 +123,7 @@ describe("Send Transaction Use Case", () => {
 
     expect(result.isLeft()).toBe(true);
     expect(result.value).toBeInstanceOf(Error);
-    expect(mockAccountsRepository.processTransaction).not.toHaveBeenCalled();
+    expect(mockAccountsRepository.settleTransaction).not.toHaveBeenCalled();
   })
   it("should not be able to send a transaction if the accounts are locked", async () => {
     const originAccount = makeAccount({

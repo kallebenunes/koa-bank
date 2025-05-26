@@ -2,7 +2,9 @@ import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { Transaction } from "../../enterprise/entities/Transaction";
 import { AccountsRepository } from "../repositories/accounts-repository";
 import { DomainEvents } from "@/core/events/domain-events";
-import { Either, right } from "@/core/either";
+import { Either, left, right } from "@/core/either";
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error";
+import { LockedError } from "./errors/ConflictError";
 
 export interface SendTransactionDTO {
   amount: number;
@@ -20,26 +22,23 @@ export class SendTransactionUseCase {
     const destinationAccount = await this.accountsRepository.findById(transactionData.destinationAccountId);
 
     if (!destinationAccount) {
-      throw new Error("Destination account not found");
+      return left(new ResourceNotFoundError())
     }
 
     const originAccount = await this.accountsRepository.findById(transactionData.originAccountId);
 
     if(!originAccount) {
-      throw new Error("Origin account not found");
+      return left(new ResourceNotFoundError())
     }
 
     if(originAccount.balance < transactionData.amount) {
-      throw new Error("Insufficient funds in origin account");
+      return left(new Error('Insufficient funds'))
     }
     
-    if(DomainEvents.findMarkedAggregateByID(originAccount.id) ) {
-      throw new Error("Origin account is already marked for an event");
+    if(DomainEvents.findMarkedAggregateByID(originAccount.id) || DomainEvents.findMarkedAggregateByID(destinationAccount.id)) {
+      return left(new LockedError())
     }
 
-    if(DomainEvents.findMarkedAggregateByID(destinationAccount.id) ) {
-      throw new Error("Destination account can't proccess a transaction");
-    }
 
     const transaction = Transaction.create({
       amount: transactionData.amount,

@@ -36,8 +36,6 @@ model Transaction {
     amount              Float
     createdAt           DateTime @default(now())
     
-    description         String?
-    
     originAccountId      String?  @db.ObjectId
     destinationAccountId String   @db.ObjectId
     

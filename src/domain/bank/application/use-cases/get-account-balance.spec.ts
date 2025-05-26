@@ -16,9 +16,15 @@ describe('GetAccountBalanceUseCase', () => {
     }, new UniqueEntityID('account-id'))
 
     mockAccountsRepository.findById.mockResolvedValue(mockAccount)
-    const {balance} = await sut.execute('account-id')
-    expect(balance).toBe(1000)
-    expect(mockAccountsRepository.findById).toHaveBeenCalledWith('account-id')
+
+    const result = await sut.execute('account-id')
+
+    expect(result.isRight()).toBe(true)
+
+    if(result.isRight()){
+      expect(result.value.balance).toBe(1000)
+      expect(mockAccountsRepository.findById).toHaveBeenCalledWith('account-id')
+    }
   })
 
 })

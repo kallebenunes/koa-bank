@@ -12,7 +12,7 @@ describe('GetAccountBalanceUseCase', () => {
     const mockAccount = Account.create({
       balance: 1000,
       customerId: new UniqueEntityID('customer-id'),
-      transactions: []
+      transactions: [],
     }, new UniqueEntityID('account-id'))
 
     mockAccountsRepository.findById.mockResolvedValue(mockAccount)

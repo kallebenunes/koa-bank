@@ -10,6 +10,8 @@ export function makeAccount(
       balance: 0,
       customerId: new UniqueEntityID('customer-id'),
       transactions: [],
+      createdAt: new Date(),
+      updatedAt: null,
       
       ...override,
     },

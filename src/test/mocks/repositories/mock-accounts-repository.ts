@@ -3,9 +3,10 @@ import { AccountsRepository } from "@/domain/bank/application/repositories/accou
 
 export function makeMockAccountsRepository(): jest.Mocked<AccountsRepository> {
   return {
+    create: jest.fn(),
     findById: jest.fn(),
     findByCustomerId: jest.fn(),
     save: jest.fn(),
-    processTransaction: jest.fn(),
+    settleTransaction: jest.fn(),
   };
 }

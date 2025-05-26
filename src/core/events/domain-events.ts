@@ -30,7 +30,7 @@ export class DomainEvents {
     this.markedAggregates.splice(index, 1)
   }
 
-  private static findMarkedAggregateByID(
+  public static findMarkedAggregateByID(
     id: UniqueEntityID,
   ): AggregateRoot<unknown> | undefined {
     return this.markedAggregates.find((aggregate) => aggregate.id.equals(id))

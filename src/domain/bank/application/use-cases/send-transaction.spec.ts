@@ -3,6 +3,7 @@ import { SendTransactionUseCase } from "./send-transaction";
 
 
 describe("Send Transaction Use Case", () => {
+  
   const mockTransactionsRepository = makeMockTransactionsRepository();
 
   const sut = new SendTransactionUseCase(mockTransactionsRepository);

@@ -8,7 +8,7 @@ export const config = {
   database: {
     url:
       process.env.DATABASE_URL ||
-      "mongodb://root:example@localhost:27017/development?authSource=admin",
+      "mongodb://localhost:27017/koa-bank?replicaSet=rs0&directConnection=true",
   },
   cors: {
     origin: process.env.CORS_ORIGIN || "*",

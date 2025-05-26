@@ -7,9 +7,32 @@ export const SCHEMA = `
     updatedAt: String!
     }
 
+  type Transaction {
+    id: ID!
+    amount: Float!
+    type: String!
+    createdAt: String!
+    originAccountId: String!
+    destinationAccountId: String!
+  }
+
+  type Account {
+    id: ID!
+    userId: ID!
+    balance: Float!
+    createdAt: String!
+    updatedAt: String!
+    user: User!
+    transactions: [Transaction!]!
+    sentTransactions: [Transaction!]!
+    receivedTransactions: [Transaction!]!
+  }
+
   type Query {
     users: [User!]!
     user(id: ID!): User
+    accounts: [Account!]!
+    transactions: [Transaction!]!
   }
 
   type Mutation {

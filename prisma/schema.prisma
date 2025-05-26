@@ -13,4 +13,38 @@ model User {
     name      String?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    account Account?
+}
+
+model Account {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    balance   Float    @default(0)
+    userId    String   @unique @db.ObjectId 
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id])
+
+    sentTransactions     Transaction[] @relation("SentTransactions")
+    receivedTransactions Transaction[] @relation("ReceivedTransactions")
+}
+
+model Transaction {
+    id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+    amount              Float
+    createdAt           DateTime @default(now())
+    
+    description         String?
+    
+    originAccountId      String?  @db.ObjectId
+    destinationAccountId String   @db.ObjectId
+    
+    originAccount       Account?  @relation("SentTransactions", fields: [originAccountId], references: [id])
+    destinationAccount  Account   @relation("ReceivedTransactions", fields: [destinationAccountId], references: [id])
+
+    
+    @@index([createdAt])
+    @@index([originAccountId])
+    @@index([destinationAccountId])
 }

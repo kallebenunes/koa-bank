@@ -10,7 +10,6 @@ export const SCHEMA = `
   type Transaction {
     id: ID!
     amount: Float!
-    type: String!
     createdAt: String!
     originAccountId: String!
     destinationAccountId: String!
@@ -28,11 +27,19 @@ export const SCHEMA = `
     receivedTransactions: [Transaction!]!
   }
 
+  type AccountBalance {
+  balance: Int!
+}
+
+  
+
+
   type Query {
     users: [User!]!
     user(id: ID!): User
     accounts: [Account!]!
     transactions: [Transaction!]!
+    getAccountBalance(accountId: ID!): AccountBalance!
   }
 
   type Mutation {

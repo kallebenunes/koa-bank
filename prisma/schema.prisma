@@ -36,10 +36,10 @@ model Transaction {
     amount              Float
     createdAt           DateTime @default(now())
     
-    originAccountId      String?  @db.ObjectId
+    originAccountId      String  @db.ObjectId
     destinationAccountId String   @db.ObjectId
     
-    originAccount       Account?  @relation("SentTransactions", fields: [originAccountId], references: [id])
+    originAccount       Account  @relation("SentTransactions", fields: [originAccountId], references: [id])
     destinationAccount  Account   @relation("ReceivedTransactions", fields: [destinationAccountId], references: [id])
 
     

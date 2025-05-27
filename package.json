@@ -4,7 +4,7 @@
   "description": "Backend service with Koa, GraphQL, and Prisma",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/infra/http/index.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/infra/http/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "npm run test:unit && npm run test:e2e",
@@ -17,7 +17,7 @@
     "test:ci": "npm run test:unit:coverage && npm run test:e2e:coverage",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:seed": "ts-node prisma/seed.ts",
+    "prisma:seed": "ts-node -r tsconfig-paths/register prisma/seed.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"
   },
@@ -28,6 +28,7 @@
     "@prisma/client": "^5.10.0",
     "dotenv": "^16.4.1",
     "graphql": "^15.8.0",
+    "graphql-http": "^1.22.4",
     "graphql-relay": "^0.9.0",
     "koa": "^2.15.0",
     "koa-bodyparser": "^4.4.1",

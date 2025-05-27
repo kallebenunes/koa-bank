@@ -36,7 +36,18 @@ export const SCHEMA = `
     getAccountBalance(accountId: ID!): AccountBalance!
   }
 
-  type Mutation {
-    createTransaction(id: ID!): Transaction!
+  type TransactionResponse {
+    success: Boolean!
   }
+
+  input SendTransactionInput {
+    originAccountId: ID!
+    destinationAccountId: ID!
+    amount: Float!
+  }
+
+  type Mutation {
+    sendTransaction(input: SendTransactionInput!): TransactionResponse!
+  }
+
 `

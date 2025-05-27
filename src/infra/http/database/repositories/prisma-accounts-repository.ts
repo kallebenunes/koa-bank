@@ -4,6 +4,7 @@ import { Account } from "@/domain/bank/enterprise/entities/Account";
 import { Transaction } from "@/domain/bank/enterprise/entities/Transaction";
 import { prisma } from "../prisma";
 import { PrismaAccountMapper } from "../mappers/AccountMapper";
+import { DomainEvents } from "@/core/events/domain-events";
 
 
 export class PrismaAccountsRepository implements AccountsRepository {
@@ -60,8 +61,38 @@ export class PrismaAccountsRepository implements AccountsRepository {
     throw new Error("Method not implemented.");
   }
   async settleTransaction(transaction: Transaction, originAccount: Account, destinationAccount: Account): Promise<void> {
-    console.log(transaction, originAccount, destinationAccount)
-    
+    await prisma.$transaction(async (tx) => {
+      // Update origin account with its new balance
+      await tx.account.update({
+        where: { id: originAccount.id.toString() },
+        data: { 
+          balance: originAccount.balance,
+          updatedAt: new Date()
+        }
+      });
+
+      // Update destination account with its new balance
+      await tx.account.update({
+        where: { id: destinationAccount.id.toString() },
+        data: { 
+          balance: destinationAccount.balance,
+          updatedAt: new Date()
+        }
+      });
+
+      // Create transaction record
+      await tx.transaction.create({
+        data: {
+          id: transaction.id.toString(),
+          amount: transaction.amount,
+          originAccountId: originAccount.id.toString(),
+          destinationAccountId: destinationAccount.id.toString(),
+          createdAt: transaction.createdAt
+        }
+      });
+
+      DomainEvents.dispatchEventsForAggregate(originAccount.id);
+      DomainEvents.dispatchEventsForAggregate(destinationAccount.id);
+    });
   }
-  
 }

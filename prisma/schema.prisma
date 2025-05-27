@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    id        String   @id @default(uuid()) @map("_id")
     email     String   @unique
     name      String?
     createdAt DateTime @default(now())
@@ -19,9 +19,9 @@ model User {
 }
 
 model Account {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    id        String   @id @default(uuid()) @map("_id")
     balance   Float    @default(0)
-    userId    String   @unique @db.ObjectId 
+    userId    String   @unique
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
@@ -32,12 +32,12 @@ model Account {
 }
 
 model Transaction {
-    id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+    id                  String   @id @default(uuid()) @map("_id")
     amount              Float
     createdAt           DateTime @default(now())
     
-    originAccountId      String  @db.ObjectId
-    destinationAccountId String   @db.ObjectId
+    originAccountId      String
+    destinationAccountId String
     
     originAccount       Account  @relation("SentTransactions", fields: [originAccountId], references: [id])
     destinationAccount  Account   @relation("ReceivedTransactions", fields: [destinationAccountId], references: [id])

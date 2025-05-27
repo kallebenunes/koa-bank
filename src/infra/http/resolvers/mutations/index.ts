@@ -1,11 +1,5 @@
-import { prisma } from "../../database/prisma"
+import { sendTransaction } from "./create-transaction"
 
 export const MUTATIONS = {
-  createTransaction: async () => {
-    const result = await prisma.user.findMany()
-    console.log('result', result)
-    return {
-      originAccountId: '123',
-    }
-  }
+  sendTransaction
 }

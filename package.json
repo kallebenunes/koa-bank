@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register  --transpile-only src/infra/http/index.ts",
     "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
-    "start": "node dist/index.js",
+    "start": "node dist/infra/http/index.js",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "jest --config jest.config.unit.ts",
     "test:unit:watch": "jest --config jest.config.unit.ts --watch",

@@ -14,7 +14,7 @@ async function main() {
           password: 'hashed_password', 
           account: {
             create: {
-              balance: faker.number.float({ min: 100, max: 1000 }),
+              balance: faker.number.int({ min: 100, max: 1000 }),
             },
           },
         },

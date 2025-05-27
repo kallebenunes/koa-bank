@@ -31,21 +31,12 @@ export const SCHEMA = `
   balance: Int!
 }
 
-  
-
 
   type Query {
-    users: [User!]!
-    user(id: ID!): User
-    accounts: [Account!]!
-    transactions: [Transaction!]!
     getAccountBalance(accountId: ID!): AccountBalance!
   }
 
   type Mutation {
-    createUser(email: String!, name: String): User!
-    updateUser(id: ID!, email: String, name: String): User
-    deleteUser(id: ID!): User
     createTransaction(id: ID!): Transaction!
   }
 `

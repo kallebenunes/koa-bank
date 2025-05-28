@@ -12,11 +12,6 @@ A modern banking system backend built with Koa.js, GraphQL, and MongoDB, followi
   - Real-time transaction events
 - GraphQL API
   - Modern API design with GraphQL
-- Domain-Driven Design
-  - Clean architecture principles
-  - Rich domain model
-  - Use case driven development
-  - Event-driven architecture
 
 ## Tech Stack
 
@@ -106,7 +101,7 @@ The GraphQL API is accessible at the following URLs:
 
 ## Architecture
 
-The project follows  Domain-Driven Design, Clean and Hexagonal Clean Architecture approaches.
+The project follows  Domain-Driven Design, Clean and Hexagonal Architecture approaches.
 
 - **Entities**: Core domain objects (Account, Transaction)
 - **Use Cases**: Application business rules

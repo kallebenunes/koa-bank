@@ -20,3 +20,14 @@ export function makeAccount(
 
   return account
 }
+
+export function makeAccountsList(){
+
+  const accountsList: Account[] = []
+
+  for(let i = 0; i < 10; i++) {
+    accountsList.push(makeAccount())
+  }
+
+  return accountsList
+}

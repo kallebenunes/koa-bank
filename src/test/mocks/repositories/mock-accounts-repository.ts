@@ -8,5 +8,6 @@ export function makeMockAccountsRepository(): jest.Mocked<AccountsRepository> {
     findByCustomerId: jest.fn(),
     save: jest.fn(),
     settleTransaction: jest.fn(),
+    findMany: jest.fn(), // Default to returning an empty array
   };
 }

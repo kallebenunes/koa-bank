@@ -101,8 +101,8 @@ There is a insomnia-collection at the root of the project that can be used with 
 ## Available Endpoints
 
 The GraphQL API is accessible at the following URLs:
-- GraphQL Endpoint: `/graphql` - Use this endpoint for your API requests
-- GraphQL Playground: `/playground` - Interactive API documentation and testing interface
+- GraphQL Endpoint: `/graphql` [https://koabank.kallebedev.com/graphql] - Use this endpoint for your API requests
+- GraphQL Playground: `/playground` [https://koabank.kallebedev.com/playground] - Interactive API documentation and testing interface
 
 ## Architecture
 

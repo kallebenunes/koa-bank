@@ -9,7 +9,7 @@ const prisma = new PrismaClient()
 async function main() {
   // Step 1: Create 10 Users with Accounts
   const users = await Promise.all(
-    Array.from({ length: 10 }).map(async () => {
+    Array.from({ length: 100 }).map(async () => {
       const user = await prisma.user.create({
         data: {
           email: faker.internet.email(),

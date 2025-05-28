@@ -5,8 +5,6 @@ import { Transaction } from "@/domain/bank/enterprise/entities/Transaction";
 import { prisma } from "../prisma";
 import { PrismaAccountMapper } from "../mappers/AccountMapper";
 import { DomainEvents } from "@/core/events/domain-events";
-
-
 export class PrismaAccountsRepository implements AccountsRepository {
 
   constructor(private transactionsRepository: TransactionsRepository) {
@@ -94,5 +92,33 @@ export class PrismaAccountsRepository implements AccountsRepository {
       DomainEvents.dispatchEventsForAggregate(originAccount.id);
       DomainEvents.dispatchEventsForAggregate(destinationAccount.id);
     });
+  }
+  async findMany(paginationParams: { page: number; limit?: number }): Promise<Account[]> {
+    const { page, limit = 10 } = paginationParams;
+    const accounts = await prisma.account.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        receivedTransactions: {
+          take: 10, 
+          orderBy: { createdAt: 'desc' } // Optional: order by most recent
+        },
+        sentTransactions: {
+          take: 10,
+          orderBy: { createdAt: 'desc' } // Optional: order by most recent
+        },
+        _count: {
+          select: {
+            receivedTransactions: true,
+            sentTransactions: true,
+          },
+        },
+      },
+    });
+
+    return accounts.map(PrismaAccountMapper.toDomain);
   }
 }

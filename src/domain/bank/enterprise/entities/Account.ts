@@ -26,6 +26,12 @@ export class Account extends AggregateRoot<AccountProps> {
   get transactions(): Transaction[] {
     return this.props.transactions;
   }
+  get createdAt() {
+    return this.props.createdAt;
+  }
+  get updatedAt() {
+    return this.props.updatedAt || null;
+  }
 
   updateBalance(amount: number){
     this.props.balance = amount;

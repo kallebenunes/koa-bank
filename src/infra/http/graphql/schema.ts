@@ -17,23 +17,19 @@ export const SCHEMA = `
 
   type Account {
     id: ID!
-    userId: ID!
-    balance: Float!
+    customerId: ID!
+    balance: Int!
     createdAt: String!
     updatedAt: String!
-    user: User!
-    transactions: [Transaction!]!
-    sentTransactions: [Transaction!]!
-    receivedTransactions: [Transaction!]!
   }
 
   type AccountBalance {
-  balance: Int!
-}
-
+    balance: Int!
+  }
 
   type Query {
     getAccountBalance(accountId: ID!): AccountBalance!
+    fetchAccounts(page: Int, limit: Int): [Account]!
   }
 
   type TransactionResponse {
@@ -43,7 +39,7 @@ export const SCHEMA = `
   input SendTransactionInput {
     originAccountId: ID!
     destinationAccountId: ID!
-    amount: Float!
+    amount: Int!
   }
 
   type Mutation {

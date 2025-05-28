@@ -6,9 +6,9 @@ A modern banking system backend built with Koa.js, GraphQL, and MongoDB, followi
 
 - Account Management
   - Check account balances
-  - Process transactions between accounts
+  - Settle transactions between accounts
 - Transaction System
-  - Send money between accounts
+  - Send money between accounts, if someone is sending someone is receiving
   - Real-time transaction events
 - GraphQL API
   - Modern API design with GraphQL
@@ -72,7 +72,6 @@ src/
 - `npm run build` - Build for production
 - `npm start` - Start production server
 - `npm test` - Run all tests
-- `npm run lint:fix` - Fix linting issues
 
 ## API Examples
 

@@ -106,12 +106,12 @@ The GraphQL API is accessible at the following URLs:
 
 ## Architecture
 
-The project follows a Domain-Driven Design approach with these key concepts:
+The project follows  Domain-Driven Design, Clean and Hexagonal Clean Architecture approaches.
 
 - **Entities**: Core domain objects (Account, Transaction)
 - **Use Cases**: Application business rules
 - **Repositories**: Data access abstractions
-- **Events**: Domain events for key business operations
+- **Events**: Domain events for handling state management
 - **Either Pattern**: Functional error handling
 
 ## Testing

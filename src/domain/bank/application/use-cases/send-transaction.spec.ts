@@ -4,8 +4,9 @@ import { SendTransactionUseCase } from "./send-transaction";
 import { makeAccount } from "@/test/factories/make-account";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error";
-import { LockedError } from "./errors/ConflictError";
+import { LockedError } from "./errors/LockedError";
 import { DomainEvents } from "@/core/events/domain-events";
+import { SameAccountError } from "./errors/SameAccountError";
 
 describe("Send Transaction Use Case", () => {
   
@@ -19,8 +20,7 @@ describe("Send Transaction Use Case", () => {
   });
 
   it("should be able to send a transaction", async () => {
-    
-
+  
     const originAccount = makeAccount({
       balance: 1000,
       customerId: new UniqueEntityID("customer-id-origin"),
@@ -52,7 +52,19 @@ describe("Send Transaction Use Case", () => {
     expect(result.isRight()).toBe(true);
     
   } )
+  it("should not be able to send a transaction if the destination account is the same as the origin account", async () => {
 
+    const transactionData = {
+      amount: 100,
+      destinationAccountId: "origin-account-id",
+      originAccountId: "origin-account-id",
+    };
+
+    const result = await sut.execute(transactionData);
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(SameAccountError);
+  })
   it("should not be able to send a transaction if the destination account does not exist", async () => {
     const originAccount = makeAccount({
       balance: 1000,

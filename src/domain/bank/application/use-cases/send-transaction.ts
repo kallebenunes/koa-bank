@@ -4,8 +4,10 @@ import { AccountsRepository } from "../repositories/accounts-repository";
 import { DomainEvents } from "@/core/events/domain-events";
 import { Either, left, right } from "@/core/either";
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error";
-import { LockedError } from "./errors/ConflictError";
+import { LockedError } from "./errors/LockedError";
 import { InsufficientFunds } from "./errors/InsufficientFunds";
+import { SameAccountError } from "./errors/SameAccountError";
+
 
 export interface SendTransactionDTO {
   amount: number;
@@ -21,6 +23,10 @@ export class SendTransactionUseCase {
   async execute(transactionData: SendTransactionDTO): Promise<SendTransactionResponse> {
     
     const destinationAccount = await this.accountsRepository.findById(transactionData.destinationAccountId);
+
+    if(transactionData.destinationAccountId === transactionData.originAccountId) {
+      return left(new SameAccountError())
+    }
 
     if (!destinationAccount) {
       return left(new ResourceNotFoundError())

@@ -96,6 +96,7 @@ mutation {
   })
 }
 ```
+There is a insomnia-collection at the root of the project that can be used with postman
 
 ## Available Endpoints
 

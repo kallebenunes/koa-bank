@@ -102,6 +102,7 @@ The GraphQL API is accessible at the following URLs:
 ## Architecture
 
 The project follows  Domain-Driven Design, Clean and Hexagonal Architecture approaches.
+![image](https://github.com/user-attachments/assets/e46e35d1-c387-475e-a9a0-7f6bd1244aa6)
 
 - **Entities**: Core domain objects (Account, Transaction)
 - **Use Cases**: Application business rules

@@ -5,9 +5,10 @@ import { Transaction } from "@/domain/bank/enterprise/entities/Transaction";
 import { prisma } from "../prisma";
 import { PrismaAccountMapper } from "../mappers/AccountMapper";
 import { DomainEvents } from "@/core/events/domain-events";
+import { CacheRepository } from "../../cache/cache-repository";
 export class PrismaAccountsRepository implements AccountsRepository {
 
-  constructor(private transactionsRepository: TransactionsRepository) {
+  constructor(private transactionsRepository: TransactionsRepository, private cache: CacheRepository) {
     this.transactionsRepository = transactionsRepository;
   }
   async create(account: Account): Promise<Account> {
@@ -88,13 +89,20 @@ export class PrismaAccountsRepository implements AccountsRepository {
           createdAt: transaction.createdAt
         }
       });
-
+      
       DomainEvents.dispatchEventsForAggregate(originAccount.id);
       DomainEvents.dispatchEventsForAggregate(destinationAccount.id);
     });
   }
   async findMany(paginationParams: { page: number; limit?: number }): Promise<Account[]> {
     const { page, limit = 10 } = paginationParams;
+
+    const cachehit = await this.cache.get(`accounts:${page}:${limit}`);
+    
+    if (cachehit) {
+      return JSON.parse(cachehit).map(PrismaAccountMapper.toDomain);
+    }
+
     const accounts = await prisma.account.findMany({
       skip: (page - 1) * limit,
       take: limit,
@@ -118,6 +126,8 @@ export class PrismaAccountsRepository implements AccountsRepository {
         },
       },
     });
+
+    this.cache.set(`accounts:${page}:${limit}`, JSON.stringify(accounts));
 
     return accounts.map(PrismaAccountMapper.toDomain);
   }

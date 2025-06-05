@@ -35,6 +35,7 @@ app.use(router.routes()).use(router.allowedMethods());
 export const startServer = async () => {
   try {
     
+    await prisma.$connect();
     console.log("📦 Connected to database");
     
     app.listen(config.port, () => {

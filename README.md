@@ -47,14 +47,21 @@ src/
    ```bash
    npm install
    ```
-3. Set up MongoDB:
+   
+3. Set up your environment variables:
+   ```
+   DATABASE_URL=mongodb://mongo1:27017,mongo2:27017,mongo3:27017/koabank?replicaSet=rs0
+   REDIS_HOST=0.0.0.0
+   REDIS_PORT=6379
+   PORT=4000
+   ```
+4. Create docker-compose.override.yml:
+   There is a docker-compose.override-example on the project root. 
+   It is needed to run the project on development mode with databases exposed ports.
+
+5. Set up docker compose:
    ```bash
    docker-compose up -d
-   ```
-4. Set up your environment variables:
-   ```
-   DATABASE_URL=mongodb://localhost:27017/koa-bank?replicaSet=rs0&directConnection=true
-   PORT=4000
    ```
 5. Run database migrations:
    ```bash

@@ -14,7 +14,7 @@ export const config = {
     origin: process.env.CORS_ORIGIN || "*",
     credentials: true,
   },
-  redisHost: process.env.REDIS_HOST || "localhost",
+  redisHost: process.env.REDIS_HOST || "0.0.0.0",
   redisPort: process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : 6379,
   redisDb: process.env.REDIS_DB ? parseInt(process.env.REDIS_DB) : 0,
 } as const;

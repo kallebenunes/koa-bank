@@ -1,19 +1,19 @@
 services:
   mongo1:
     ports:
-      - "127.0.0.1:27017:27017" # Mapeia a porta apenas para o localhost
+      - "27017:27017" 
 
   mongo2:
     ports:
-      - "127.0.0.1:27018:27017" # Mapeia a porta apenas para o localhost
+      - "27018:27017"
 
   mongo3:
     ports:
-      - "127.0.0.1:27019:27017" # Mapeia a porta apenas para o localhost
+      - "27019:27017" 
 
   redis:
     ports:
-      - "127.0.0.1:6379:6379" # Mapeia a porta apenas para o localhost
+      - "6379:6379" 
 
   node-app:
-    command: echo "O serviço node-app é executado na máquina local durante o desenvolvimento."
+    command: echo "Node app service is executed on development mode"

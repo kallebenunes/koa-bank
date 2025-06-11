@@ -6,7 +6,7 @@ dotenv.config();
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   PORT: z.coerce.number().default(4000),
-  CORS_ORIGIN: z.string().default("*"),
+  CORS_ORIGIN: z.string(),
 
   // DB
   DATABASE_URL: z.string(),
@@ -18,6 +18,7 @@ const envSchema = z.object({
 
   // Cache Time
   DEFAULT_CACHE_TIME: z.coerce.number().default(30000), // 30 seconds,
+  
 });
 
 
@@ -31,7 +32,6 @@ export const config = {
   },
   cors: {
     origin: validatedEnv.CORS_ORIGIN,
-    credentials: true,
   },
   redisHost: validatedEnv.REDIS_HOST,
   redisPort: validatedEnv.REDIS_PORT,

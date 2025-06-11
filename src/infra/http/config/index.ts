@@ -17,7 +17,7 @@ const envSchema = z.object({
   REDIS_DB: z.coerce.number(),
 
   // Cache Time
-  DEFAULT_CACHE_TIME: z.coerce.number().default(30000), // 30 seconds,
+  DEFAULT_CACHE_TIME_IN_SECONDS: z.coerce.number().default(30), // 30 seconds,
   
 });
 
@@ -36,7 +36,7 @@ export const config = {
   redisHost: validatedEnv.REDIS_HOST,
   redisPort: validatedEnv.REDIS_PORT,
   redisDb: validatedEnv.REDIS_DB,
-  defaultCacheTime: validatedEnv.DEFAULT_CACHE_TIME,
+  defaultCacheTime: validatedEnv.DEFAULT_CACHE_TIME_IN_SECONDS,
 } as const;
 
 

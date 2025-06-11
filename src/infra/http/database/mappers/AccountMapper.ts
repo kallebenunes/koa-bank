@@ -10,7 +10,7 @@ export class PrismaAccountMapper {
         customerId: new UniqueEntityID(raw.userId),
         transactions: [],
         createdAt: new Date(raw.createdAt),
-        updatedAt: new Date(raw.updatedAt),     
+        updatedAt: raw.updatedAt ? new Date(raw.updatedAt) : null,     
       },
       new UniqueEntityID(raw.id),
     )

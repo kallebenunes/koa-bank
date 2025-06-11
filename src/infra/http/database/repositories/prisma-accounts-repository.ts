@@ -6,6 +6,16 @@ import { prisma } from "../prisma";
 import { PrismaAccountMapper } from "../mappers/AccountMapper";
 import { DomainEvents } from "@/core/events/domain-events";
 import { CacheRepository } from "../../cache/cache-repository";
+import z from "zod";
+
+const accountFromCacheSchema = z.object({
+  id: z.string(),
+  balance: z.number(),
+  userId: z.string(), 
+  createdAt: z.string(), 
+  updatedAt: z.string()
+})
+
 export class PrismaAccountsRepository implements AccountsRepository {
 
   constructor(private transactionsRepository: TransactionsRepository, private cache: CacheRepository) {
@@ -94,13 +104,19 @@ export class PrismaAccountsRepository implements AccountsRepository {
       DomainEvents.dispatchEventsForAggregate(destinationAccount.id);
     });
   }
+
   async findMany(paginationParams: { page: number; limit?: number }): Promise<Account[]> {
     const { page, limit = 10 } = paginationParams;
-
-    const cachehit = await this.cache.get(`accounts:${page}:${limit}`);
     
-    if (cachehit) {
+    const cacheKey = `accounts:${page}:${limit}`;
+    const cachehit = await this.cache.get(cacheKey);
+    const parsedAccountsFromCache = z.array(accountFromCacheSchema).safeParse(JSON.parse(cachehit ?? '[{}]'));
+
+    if(cachehit && parsedAccountsFromCache.success){
       return JSON.parse(cachehit).map(PrismaAccountMapper.toDomain);
+    } 
+    if(cachehit && !parsedAccountsFromCache.success){
+      await this.cache.delete(cacheKey);
     }
 
     const accounts = await prisma.account.findMany({

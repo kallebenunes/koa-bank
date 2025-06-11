@@ -27,13 +27,13 @@ export const fetchAccounts = async (args: FetchAccountsArgs) => {
     page: args.page,
     limit: args.limit || 10,
   });
-  
+
   return result.value?.accounts.map(account => ({
     id: account.id.toString(),
     balance: account.balance,
     customerId: account.customerId.toString(),
     createdAt: account.createdAt.toISOString(),
-    updatedAt: account.updatedAt?.toISOString(),
+    updatedAt: account.updatedAt ? account.updatedAt.toISOString() : null,
   })) || [];
 
   

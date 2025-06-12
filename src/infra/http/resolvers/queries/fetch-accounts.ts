@@ -3,11 +3,21 @@ import { PrismaAccountsRepository } from "../../database/repositories/prisma-acc
 import { PrismaTransactionsRepository } from "../../database/repositories/prisma-transactions-repository";
 import { RedisCacheRepository } from "../../cache/redis/redis-cache-repository";
 import { redis_connection } from "../../cache/redis/redis.service";
+import z from "zod";
+import { InvalidArgumentsError } from "../errors/invalid-arguments-error";
+
+
+const fetchAccountsArgsSchema = z.object({
+  page: z.number().int().positive(),
+  limit: z.number().int().positive().optional(),
+})  
 
 interface FetchAccountsArgs {
   page: number;
   limit?: number;
 }
+
+
  /**
    * Returns a list of accounts.
    *
@@ -17,6 +27,13 @@ interface FetchAccountsArgs {
    *
    */
 export const fetchAccounts = async (args: FetchAccountsArgs) => {
+  const parsedArgs = fetchAccountsArgsSchema.safeParse(args);
+
+  if (!parsedArgs.success) {
+    throw new InvalidArgumentsError('Invalid arguments provided', parsedArgs.error);
+  }
+
+
   const redisCacheRepository = new RedisCacheRepository(redis_connection);
 
   const transactionsRepository = new PrismaTransactionsRepository();

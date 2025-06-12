@@ -3,10 +3,15 @@ import { PrismaAccountsRepository } from "../../database/repositories/prisma-acc
 import { PrismaTransactionsRepository } from "../../database/repositories/prisma-transactions-repository";
 import { RedisCacheRepository } from '../../cache/redis/redis-cache-repository';
 import { redis_connection } from "../../cache/redis/redis.service";
+import z from "zod";
+import { InvalidArgumentsError } from "../errors/invalid-arguments-error";
+import { GraphQLError } from "graphql";
 
-interface GetAccountBalanceArgs {
-  accountId: string;
-}
+const getAccountBalanceArgsSchema = z.object({
+  accountId: z.string().uuid(),
+});
+
+export type GetAccountBalanceArgs = z.infer<typeof getAccountBalanceArgsSchema>;
 
 /**
  * Retrieves the balance for a specific account.
@@ -15,17 +20,22 @@ interface GetAccountBalanceArgs {
  * @returns {{ balance: number }} An object with the account balance.
  */
 export const getAccountBalance = async (args: GetAccountBalanceArgs) => {
+  const parsedArgs = getAccountBalanceArgsSchema.safeParse(args);
 
+  if(parsedArgs.success === false) {
+    
+    throw new InvalidArgumentsError('Invalid arguments provided', parsedArgs.error);   
+  }
   const redisCacheRepository = new RedisCacheRepository(redis_connection);
 
   const transactionsRepository = new PrismaTransactionsRepository();
   const accountsRepository = new PrismaAccountsRepository(transactionsRepository, redisCacheRepository);
   const getAccountBalaceUseCase = new GetAccountBalanceUseCase(accountsRepository);
   
-  const result = await getAccountBalaceUseCase.execute(args.accountId)
+  const result = await getAccountBalaceUseCase.execute(parsedArgs.data.accountId )
 
   if (result.isLeft()) {
-    throw new Error(result.value.message);
+    throw new GraphQLError(result.value.message)
   }
 
   return {

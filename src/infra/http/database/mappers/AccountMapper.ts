@@ -9,8 +9,8 @@ export class PrismaAccountMapper {
         balance: raw.balance,
         customerId: new UniqueEntityID(raw.userId),
         transactions: [],
-        createdAt: raw.createdAt,
-        updatedAt: raw.updatedAt,
+        createdAt: new Date(raw.createdAt),
+        updatedAt: raw.updatedAt ? new Date(raw.updatedAt) : null,     
       },
       new UniqueEntityID(raw.id),
     )

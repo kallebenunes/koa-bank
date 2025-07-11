@@ -18,7 +18,6 @@ export const SCHEMA = `
   type Account {
     id: ID!
     customerId: ID!
-    balance: Int!
     createdAt: String!
     updatedAt: String!
   }

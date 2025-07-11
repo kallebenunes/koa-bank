@@ -19,16 +19,14 @@ router.all(
     schema: buildSchema(SCHEMA),
     rootValue: RESOLVERS,
     formatError: (error) => {
-      console.error('GraphQL Error:', error);
-      const err = new Error(error.message);
-      if (error instanceof GraphQLError) {
-        Object.assign(err, {
-          extensions: error.extensions,
-          locations: error.locations,
-          path: error.path,
-        });
+      
+      if(error instanceof GraphQLError) {
+        console.error("GraphQL Error:", error);
+        if(error.originalError !== undefined && !(error.originalError instanceof GraphQLError)) {
+          return new GraphQLError("Internal Server Error")
+        }
       }
-      return err;
+      return error
     },
   })
 );
